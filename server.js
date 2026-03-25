@@ -9,44 +9,60 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-// 🔥 TEMP DATABASE (array)
+// 🔥 TEMP DATABASE
 let students = [];
-let id = 1;
 
-// ADD student
-app.post("/add-student", (req, res) => {
-  const { name, age, course, marks } = req.body;
+// ADD STUDENT
+app.post("/add", (req, res) => {
+  const { reg_no, name, subject, marks } = req.body;
 
-  const newStudent = {
-    id: id++,
+  students.push({
+    reg_no,
     name,
-    age,
-    course,
+    subject,
     marks: Number(marks)
-  };
+  });
 
-  students.push(newStudent);
-  res.send("Student Added");
+  console.log("Added:", req.body);
+
+  res.send("Added");
 });
 
-// GET all students
+// GET ALL STUDENTS (GROUPED)
 app.get("/students", (req, res) => {
-  res.json(students);
+  const grouped = {};
+
+  students.forEach(s => {
+    if (!grouped[s.reg_no]) {
+      grouped[s.reg_no] = {
+        name: s.name,
+        subjects: []
+      };
+    }
+
+    grouped[s.reg_no].subjects.push({
+      subject: s.subject,
+      marks: s.marks
+    });
+  });
+
+  res.json(grouped);
 });
 
-// GET toppers
+// SUBJECT TOPPERS
 app.get("/toppers", (req, res) => {
-  const toppers = students.filter(s => s.marks >= 80);
-  res.json(toppers);
+  const subjectMap = {};
+
+  students.forEach(s => {
+    if (!subjectMap[s.subject] || subjectMap[s.subject].marks < s.marks) {
+      subjectMap[s.subject] = s;
+    }
+  });
+
+  res.json(subjectMap);
 });
 
-// DELETE
-app.delete("/delete/:id", (req, res) => {
-  const studentId = parseInt(req.params.id);
-  students = students.filter(s => s.id !== studentId);
-  res.send("Deleted");
-});
-
+// START SERVER
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

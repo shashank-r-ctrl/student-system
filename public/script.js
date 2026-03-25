@@ -1,28 +1,27 @@
 function addStudent() {
+  const reg_no = document.getElementById("reg_no").value;
   const name = document.getElementById("name").value;
-  const age = document.getElementById("age").value;
-  const course = document.getElementById("course").value;
+  const subject = document.getElementById("subject").value;
   const marks = document.getElementById("marks").value;
 
-  fetch("/add-student", {
+  fetch("/add", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, age, course, marks })
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ reg_no, name, subject, marks })
   }).then(() => {
     loadStudents();
     loadToppers();
 
-    // clear fields
+    document.getElementById("reg_no").value = "";
     document.getElementById("name").value = "";
-    document.getElementById("age").value = "";
-    document.getElementById("course").value = "";
+    document.getElementById("subject").value = "";
     document.getElementById("marks").value = "";
-
-    // focus back to name
-    document.getElementById("name").focus();
   });
 }
 
+// LOAD STUDENTS (GROUPED)
 function loadStudents() {
   fetch("/students")
     .then(res => res.json())
@@ -30,15 +29,23 @@ function loadStudents() {
       const list = document.getElementById("list");
       list.innerHTML = "";
 
-      data.forEach(s => {
-        const li = document.createElement("li");
-        li.innerHTML = `${s.name} (${s.marks}) 
-        <button onclick="deleteStudent(${s.id})">X</button>`;
-        list.appendChild(li);
-      });
+      for (let reg in data) {
+        const box = document.createElement("div");
+
+        box.innerHTML = `<h3>${data[reg].name} (Reg: ${reg})</h3>`;
+
+        data[reg].subjects.forEach(s => {
+          const p = document.createElement("p");
+          p.innerText = `${s.subject} - ${s.marks}`;
+          box.appendChild(p);
+        });
+
+        list.appendChild(box);
+      }
     });
 }
 
+// LOAD TOPPERS
 function loadToppers() {
   fetch("/toppers")
     .then(res => res.json())
@@ -46,19 +53,11 @@ function loadToppers() {
       const list = document.getElementById("toppers");
       list.innerHTML = "";
 
-      data.forEach(s => {
+      for (let sub in data) {
         const li = document.createElement("li");
-        li.innerText = `${s.name} - ${s.marks}`;
+        li.innerText = `${sub}: ${data[sub].name} (${data[sub].marks})`;
         list.appendChild(li);
-      });
-    });
-}
-
-function deleteStudent(id) {
-  fetch("/delete/" + id, { method: "DELETE" })
-    .then(() => {
-      loadStudents();
-      loadToppers();
+      }
     });
 }
 
