@@ -21,7 +21,7 @@ function addStudent() {
   });
 }
 
-// LOAD STUDENTS (GROUPED)
+// LOAD STUDENTS
 function loadStudents() {
   fetch("/students")
     .then(res => res.json())
@@ -31,12 +31,19 @@ function loadStudents() {
 
       for (let reg in data) {
         const box = document.createElement("div");
+        box.className = "card";
 
         box.innerHTML = `<h3>${data[reg].name} (Reg: ${reg})</h3>`;
 
         data[reg].subjects.forEach(s => {
           const p = document.createElement("p");
-          p.innerText = `${s.subject} - ${s.marks}`;
+
+          p.innerHTML = `
+            ${s.subject} - ${s.marks}
+            <button class="edit-btn" onclick="editEntry('${reg}', '${s.subject}', '${data[reg].name}', ${s.marks})">Edit</button>
+            <button class="delete-btn" onclick="deleteEntry('${reg}', '${s.subject}')">Delete</button>
+          `;
+
           box.appendChild(p);
         });
 
@@ -50,16 +57,55 @@ function loadToppers() {
   fetch("/toppers")
     .then(res => res.json())
     .then(data => {
-      const list = document.getElementById("toppers");
-      list.innerHTML = "";
+      const container = document.getElementById("toppers");
+      container.innerHTML = "";
 
       for (let sub in data) {
-        const li = document.createElement("li");
-        li.innerText = `${sub}: ${data[sub].name} (${data[sub].marks})`;
-        list.appendChild(li);
+        const box = document.createElement("div");
+        box.className = "topper-box";
+
+        box.innerHTML = `
+          <h3>${sub}</h3>
+          <p><b>${data[sub].name}</b></p>
+          <p>Marks: ${data[sub].marks}</p>
+        `;
+
+        container.appendChild(box);
       }
     });
 }
 
+// DELETE
+function deleteEntry(reg_no, subject) {
+  fetch("/delete", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ reg_no, subject })
+  }).then(() => {
+    loadStudents();
+    loadToppers();
+  });
+}
+
+// EDIT
+function editEntry(reg_no, subject, currentName, currentMarks) {
+  const name = prompt("Enter name:", currentName);
+  const marks = prompt("Enter marks:", currentMarks);
+
+  fetch("/update", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ reg_no, subject, name, marks })
+  }).then(() => {
+    loadStudents();
+    loadToppers();
+  });
+}
+
+// INIT
 loadStudents();
 loadToppers();

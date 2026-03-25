@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-// 🔥 TEMP DATABASE
+// TEMP DATABASE
 let students = [];
 
 // ADD STUDENT
@@ -23,12 +23,10 @@ app.post("/add", (req, res) => {
     marks: Number(marks)
   });
 
-  console.log("Added:", req.body);
-
   res.send("Added");
 });
 
-// GET ALL STUDENTS (GROUPED)
+// GET STUDENTS (GROUPED)
 app.get("/students", (req, res) => {
   const grouped = {};
 
@@ -49,7 +47,7 @@ app.get("/students", (req, res) => {
   res.json(grouped);
 });
 
-// SUBJECT TOPPERS
+// TOPPERS
 app.get("/toppers", (req, res) => {
   const subjectMap = {};
 
@@ -60,6 +58,35 @@ app.get("/toppers", (req, res) => {
   });
 
   res.json(subjectMap);
+});
+
+// DELETE ENTRY
+app.delete("/delete", (req, res) => {
+  const { reg_no, subject } = req.body;
+
+  students = students.filter(
+    s => !(s.reg_no === reg_no && s.subject === subject)
+  );
+
+  res.send("Deleted");
+});
+
+// UPDATE ENTRY
+app.put("/update", (req, res) => {
+  const { reg_no, subject, name, marks } = req.body;
+
+  students = students.map(s => {
+    if (s.reg_no === reg_no && s.subject === subject) {
+      return {
+        ...s,
+        name,
+        marks: Number(marks)
+      };
+    }
+    return s;
+  });
+
+  res.send("Updated");
 });
 
 // START SERVER
