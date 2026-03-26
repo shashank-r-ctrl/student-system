@@ -1,5 +1,3 @@
-console.log("JS LOADED 🔥");
-
 // ADD
 async function addStudent() {
   const reg = document.getElementById("reg").value;
@@ -25,9 +23,9 @@ async function addStudent() {
   loadToppers();
 }
 
-// DELETE
-async function deleteStudent(reg) {
-  await fetch(`/delete/${reg}`, {
+// ❌ DELETE (ID BASED - PERFECT)
+async function deleteStudent(id) {
+  await fetch(`/delete/${id}`, {
     method: "DELETE"
   });
 
@@ -35,7 +33,7 @@ async function deleteStudent(reg) {
   loadToppers();
 }
 
-// LOAD STUDENTS
+// LOAD
 async function loadStudents() {
   const res = await fetch("/students");
   const data = await res.json();
@@ -52,8 +50,8 @@ async function loadStudents() {
         English: ${s.marks.english} |
         Social: ${s.marks.social} |
         Computer: ${s.marks.computer}
-        <br>
-        <button onclick="deleteStudent('${s.reg}')">Delete</button>
+        <br><br>
+        <button onclick="deleteStudent('${s._id}')">Delete</button>
       </div>
     `;
   });

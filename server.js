@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-// 🔥 CONNECT MONGODB
+// 🔥 MONGODB CONNECT
 mongoose.connect("mongodb://shashank233_db_user:1234@ac-l0ucolh-shard-00-00.oum1lrt.mongodb.net:27017,ac-l0ucolh-shard-00-01.oum1lrt.mongodb.net:27017,ac-l0ucolh-shard-00-02.oum1lrt.mongodb.net:27017/studentDB?ssl=true&replicaSet=atlas-hyzgrf-shard-0&authSource=admin&retryWrites=true&w=majority")
   .then(() => console.log("🔥 MongoDB Connected"))
   .catch(err => console.log(err));
@@ -29,7 +29,7 @@ const studentSchema = new mongoose.Schema({
 
 const Student = mongoose.model("Student", studentSchema);
 
-// ADD / UPDATE
+// ➕ ADD / UPDATE
 app.post("/add", async (req, res) => {
   const { reg, name, marks } = req.body;
 
@@ -45,19 +45,24 @@ app.post("/add", async (req, res) => {
   res.send("Saved");
 });
 
-// DELETE
-app.delete("/delete/:reg", async (req, res) => {
-  await Student.deleteOne({ reg: req.params.reg });
-  res.send("Deleted");
+//  DELETE 
+app.delete("/delete/:id", async (req, res) => {
+  try {
+    await Student.findByIdAndDelete(req.params.id);
+    res.send("Deleted");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error deleting");
+  }
 });
 
-// GET
+// 📥 GET (sorted latest first)
 app.get("/students", async (req, res) => {
-  const data = await Student.find();
+  const data = await Student.find().sort({ _id: -1 });
   res.json(data);
 });
 
-// START
+// 🚀 START
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
