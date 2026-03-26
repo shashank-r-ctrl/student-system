@@ -1,108 +1,93 @@
-function addStudent() {
-  const reg_no = document.getElementById("reg_no").value;
-  const name = document.getElementById("name").value;
-  const subject = document.getElementById("subject").value;
-  const marks = document.getElementById("marks").value;
+console.log("JS LOADED 🔥");
 
-  fetch("/add", {
+// ADD
+async function addStudent() {
+  const reg = document.getElementById("reg").value;
+  const name = document.getElementById("name").value;
+
+  const marks = {
+    math: Number(document.getElementById("math").value),
+    science: Number(document.getElementById("science").value),
+    english: Number(document.getElementById("english").value),
+    social: Number(document.getElementById("social").value),
+    computer: Number(document.getElementById("computer").value)
+  };
+
+  await fetch("/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ reg_no, name, subject, marks })
-  }).then(() => {
-    loadStudents();
-    loadToppers();
-
-    document.getElementById("reg_no").value = "";
-    document.getElementById("name").value = "";
-    document.getElementById("subject").value = "";
-    document.getElementById("marks").value = "";
+    body: JSON.stringify({ reg, name, marks })
   });
-}
 
-// LOAD STUDENTS
-function loadStudents() {
-  fetch("/students")
-    .then(res => res.json())
-    .then(data => {
-      const list = document.getElementById("list");
-      list.innerHTML = "";
-
-      for (let reg in data) {
-        const box = document.createElement("div");
-        box.className = "card";
-
-        box.innerHTML = `<h3>${data[reg].name} (Reg: ${reg})</h3>`;
-
-        data[reg].subjects.forEach(s => {
-          const p = document.createElement("p");
-
-          p.innerHTML = `
-            ${s.subject} - ${s.marks}
-            <button class="edit-btn" onclick="editEntry('${reg}', '${s.subject}', '${data[reg].name}', ${s.marks})">Edit</button>
-            <button class="delete-btn" onclick="deleteEntry('${reg}', '${s.subject}')">Delete</button>
-          `;
-
-          box.appendChild(p);
-        });
-
-        list.appendChild(box);
-      }
-    });
-}
-
-// LOAD TOPPERS
-function loadToppers() {
-  fetch("/toppers")
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById("toppers");
-      container.innerHTML = "";
-
-      for (let sub in data) {
-        const box = document.createElement("div");
-        box.className = "topper-box";
-
-        box.innerHTML = `
-          <h3>${sub}</h3>
-          <p><b>${data[sub].name}</b></p>
-          <p>Marks: ${data[sub].marks}</p>
-        `;
-
-        container.appendChild(box);
-      }
-    });
+  loadStudents();
+  loadToppers();
 }
 
 // DELETE
-function deleteEntry(reg_no, subject) {
-  fetch("/delete", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ reg_no, subject })
-  }).then(() => {
-    loadStudents();
-    loadToppers();
+async function deleteStudent(reg) {
+  await fetch(`/delete/${reg}`, {
+    method: "DELETE"
+  });
+
+  loadStudents();
+  loadToppers();
+}
+
+// LOAD STUDENTS
+async function loadStudents() {
+  const res = await fetch("/students");
+  const data = await res.json();
+
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  data.forEach(s => {
+    list.innerHTML += `
+      <div class="card">
+        <b>${s.name} (${s.reg})</b><br>
+        Math: ${s.marks.math} |
+        Science: ${s.marks.science} |
+        English: ${s.marks.english} |
+        Social: ${s.marks.social} |
+        Computer: ${s.marks.computer}
+        <br>
+        <button onclick="deleteStudent('${s.reg}')">Delete</button>
+      </div>
+    `;
   });
 }
 
-// EDIT
-function editEntry(reg_no, subject, currentName, currentMarks) {
-  const name = prompt("Enter name:", currentName);
-  const marks = prompt("Enter marks:", currentMarks);
+// TOPPERS
+async function loadToppers() {
+  const res = await fetch("/students");
+  const data = await res.json();
 
-  fetch("/update", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ reg_no, subject, name, marks })
-  }).then(() => {
-    loadStudents();
-    loadToppers();
+  const subjects = ["math", "science", "english", "social", "computer"];
+
+  const box = document.getElementById("toppers");
+  box.innerHTML = "";
+
+  subjects.forEach(sub => {
+    let top = { name: "-", marks: -1 };
+
+    data.forEach(s => {
+      if (s.marks[sub] > top.marks) {
+        top = {
+          name: s.name,
+          marks: s.marks[sub]
+        };
+      }
+    });
+
+    box.innerHTML += `
+      <tr>
+        <td>${sub.toUpperCase()}</td>
+        <td>${top.name}</td>
+        <td>${top.marks}</td>
+      </tr>
+    `;
   });
 }
 

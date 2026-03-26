@@ -1,0 +1,13 @@
+[
+  {
+    "reg": "25bcaf57",
+    "name": "saniya",
+    "marks": {
+      "math": 99,
+      "science": 88,
+      "english": 71,
+      "social": 65,
+      "computer": 70
+    }
+  }
+]

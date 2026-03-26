@@ -6,32 +6,38 @@
 </head>
 <body>
 
-<h1>🎓 Student Management System</h1>
-
 <div class="container">
+  <h1>🎓 Student Management</h1>
 
-  <div class="left">
-    <h2>Add Student</h2>
+  <input id="reg" placeholder="Registration Number">
+  <input id="name" placeholder="Name">
 
-    <input id="reg_no" placeholder="Registration Number">
-    <input id="name" placeholder="Student Name">
-    <input id="subject" placeholder="Subject">
-    <input id="marks" placeholder="Marks">
+  <h3>Marks</h3>
 
-    <button onclick="addStudent()">Add</button>
+  <input id="math" placeholder="Math">
+  <input id="science" placeholder="Science">
+  <input id="english" placeholder="English">
+  <input id="social" placeholder="Social">
+  <input id="computer" placeholder="Computer">
 
-    <h2>Students</h2>
-    <div id="list"></div>
-  </div>
+  <button onclick="addStudent()">Save Student</button>
 
-  <div class="right">
-    <h2>🏆 Subject Toppers</h2>
-    <div id="toppers"></div>
-  </div>
+  <h2>📋 Students</h2>
+  <div id="list"></div>
 
+  <h2>🏆 Subject Toppers</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Name</th>
+        <th>Marks</th>
+      </tr>
+    </thead>
+    <tbody id="toppers"></tbody>
+  </table>
 </div>
 
-<script src="/script.js"></script>
-
+<script src="script.js"></script>
 </body>
 </html>
