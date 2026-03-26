@@ -9,6 +9,8 @@
 <div class="container">
   <h1>🎓 Student Management</h1>
 
+  <button onclick="logout()">Logout</button>
+
   <input id="reg" placeholder="Registration Number">
   <input id="name" placeholder="Name">
 
@@ -36,6 +38,12 @@
     </thead>
     <tbody id="toppers"></tbody>
   </table>
+
+  <h2>🤖 Chatbot</h2>
+  <input id="question" placeholder="Ask something...">
+  <button onclick="ask()">Ask</button>
+  <p id="answer"></p>
+
 </div>
 
 <script src="script.js"></script>

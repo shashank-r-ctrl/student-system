@@ -1,3 +1,14 @@
+// LOGIN CHECK
+if (!localStorage.getItem("auth")) {
+  window.location.href = "/login.html";
+}
+
+// LOGOUT
+function logout() {
+  localStorage.removeItem("auth");
+  window.location.href = "/login.html";
+}
+
 // ADD
 async function addStudent() {
   const reg = document.getElementById("reg").value;
@@ -78,6 +89,40 @@ async function loadToppers() {
       </tr>
     `;
   });
+}
+
+// CHATBOT
+function ask() {
+  const q = document.getElementById("question").value.toLowerCase();
+
+  fetch("/students")
+    .then(res => res.json())
+    .then(data => {
+      let answer = "Not understood";
+
+      if (q.includes("highest in math")) {
+        let top = data.reduce((a,b)=>a.marks.math>b.marks.math?a:b);
+        answer = `${top.name} has highest in Math (${top.marks.math})`;
+      }
+
+      else if (q.includes("average in english")) {
+        let avg = data.reduce((sum,s)=>sum+s.marks.english,0)/data.length;
+        answer = `Average English: ${avg.toFixed(2)}`;
+      }
+
+      else if (q.includes("average of")) {
+        const name = q.split("average of ")[1];
+        const s = data.find(x=>x.name.toLowerCase()===name);
+
+        if (s) {
+          const m = s.marks;
+          const avg = (m.math+m.science+m.english+m.social+m.computer)/5;
+          answer = `${s.name}'s average: ${avg}`;
+        }
+      }
+
+      document.getElementById("answer").innerText = answer;
+    });
 }
 
 // INIT

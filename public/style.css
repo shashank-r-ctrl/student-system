@@ -13,7 +13,7 @@ body {
   padding: 25px;
   border-radius: 20px;
   backdrop-filter: blur(15px);
-  box-shadow: 0 0 40px rgba(168,85,247,0.3);
+  box-shadow: 0 0 40px rgba(168,85,247,0.4);
 }
 
 h1 {
@@ -50,7 +50,7 @@ button {
 }
 
 .card button {
-  background: #dc2626;
+  background: linear-gradient(90deg,#a855f7,#22c55e);
 }
 
 table {

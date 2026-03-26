@@ -9,10 +9,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-// 🔥 MongoDB
+// MongoDB
 mongoose.connect("mongodb://shashank233_db_user:1234@ac-l0ucolh-shard-00-00.oum1lrt.mongodb.net:27017,ac-l0ucolh-shard-00-01.oum1lrt.mongodb.net:27017,ac-l0ucolh-shard-00-02.oum1lrt.mongodb.net:27017/studentDB?ssl=true&replicaSet=atlas-hyzgrf-shard-0&authSource=admin&retryWrites=true&w=majority")
-  .then(() => console.log("🔥 MongoDB Connected"))
-  .catch(err => console.log(err));
+.then(() => console.log("🔥 MongoDB Connected"))
+.catch(err => console.log(err));
 
 // Schema
 const studentSchema = new mongoose.Schema({
@@ -29,7 +29,7 @@ const studentSchema = new mongoose.Schema({
 
 const Student = mongoose.model("Student", studentSchema);
 
-// ADD / UPDATE
+// ADD
 app.post("/add", async (req, res) => {
   const { reg, name, marks } = req.body;
 
@@ -57,7 +57,6 @@ app.get("/students", async (req, res) => {
   res.json(data);
 });
 
-// START
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
