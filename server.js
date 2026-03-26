@@ -1,5 +1,5 @@
 const express = require("express");
-const fs = require("fs");
+const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
@@ -9,50 +9,55 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-// READ
-function readData() {
-  if (!fs.existsSync("data.json")) return [];
-  return JSON.parse(fs.readFileSync("data.json"));
-}
+// 🔥 CONNECT MONGODB
+mongoose.connect("mongodb://shashank233_db_user:1234@ac-l0ucolh-shard-00-00.oum1lrt.mongodb.net:27017,ac-l0ucolh-shard-00-01.oum1lrt.mongodb.net:27017,ac-l0ucolh-shard-00-02.oum1lrt.mongodb.net:27017/studentDB?ssl=true&replicaSet=atlas-hyzgrf-shard-0&authSource=admin&retryWrites=true&w=majority")
+  .then(() => console.log("🔥 MongoDB Connected"))
+  .catch(err => console.log(err));
 
-// WRITE
-function writeData(data) {
-  fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
-}
+// 🧠 SCHEMA
+const studentSchema = new mongoose.Schema({
+  reg: String,
+  name: String,
+  marks: {
+    math: Number,
+    science: Number,
+    english: Number,
+    social: Number,
+    computer: Number
+  }
+});
 
-// ADD
-app.post("/add", (req, res) => {
+const Student = mongoose.model("Student", studentSchema);
+
+// ADD / UPDATE
+app.post("/add", async (req, res) => {
   const { reg, name, marks } = req.body;
 
-  let data = readData();
-
-  let student = data.find(s => s.reg === reg);
+  let student = await Student.findOne({ reg });
 
   if (!student) {
-    student = { reg, name, marks: {} };
-    data.push(student);
+    student = new Student({ reg, name, marks });
+  } else {
+    student.marks = marks;
   }
 
-  student.marks = marks;
-
-  writeData(data);
+  await student.save();
   res.send("Saved");
 });
 
 // DELETE
-app.delete("/delete/:reg", (req, res) => {
-  let data = readData();
-  data = data.filter(s => s.reg !== req.params.reg);
-  writeData(data);
+app.delete("/delete/:reg", async (req, res) => {
+  await Student.deleteOne({ reg: req.params.reg });
   res.send("Deleted");
 });
 
 // GET
-app.get("/students", (req, res) => {
-  res.json(readData());
+app.get("/students", async (req, res) => {
+  const data = await Student.find();
+  res.json(data);
 });
 
-// START SERVER
+// START
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
