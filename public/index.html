@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+<title>Student System</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -13,32 +13,65 @@
 
 <div class="main">
 
-  <div class="card">
-    <h3>Add Student</h3>
+<div class="left">
+<div class="card">
+<h3>Add Student</h3>
 
-    <input id="reg" placeholder="Reg">
-    <input id="name" placeholder="Name">
+<input id="reg" placeholder="Reg">
+<input id="name" placeholder="Name">
+<input id="math" placeholder="Math">
+<input id="science" placeholder="Science">
+<input id="english" placeholder="English">
+<input id="social" placeholder="Social">
+<input id="computer" placeholder="Computer">
 
-    <input id="math" placeholder="Math">
-    <input id="science" placeholder="Science">
-    <input id="english" placeholder="English">
-    <input id="social" placeholder="Social">
-    <input id="computer" placeholder="Computer">
+<button onclick="addStudent()">Save</button>
+</div>
 
-    <button onclick="addStudent()">Save</button>
+<div class="card">
+<h3>Students</h3>
+<div id="list"></div>
+</div>
+</div>
 
-    <h3>Students</h3>
-    <div id="list"></div>
-  </div>
+<div class="right">
+<div class="card">
+<h3>🏆 Subject Toppers</h3>
+<table>
+<thead>
+<tr><th>Subject</th><th>Name</th><th>Marks</th></tr>
+</thead>
+<tbody id="topper"></tbody>
+</table>
+</div>
+</div>
 
-  <div class="card">
-    <h3>🤖 AI Chatbot</h3>
+</div>
 
-    <div id="chat" class="chatbox"></div>
+<!-- CHAT BUTTON -->
+<div class="chat-btn" onclick="toggleChat()">🤖</div>
 
-    <input id="q" placeholder="Ask anything...">
-    <button onclick="ask()">Send</button>
-  </div>
+<!-- CHAT POPUP -->
+<div id="chatPopup" class="chat-popup">
+
+<div class="chat-header">
+AI Chat <span onclick="toggleChat()">✖</span>
+</div>
+
+<!-- 🔥 SUGGESTIONS -->
+<div class="suggestions">
+<p onclick="fill('topper')">topper</p>
+<p onclick="fill('average')">average marks</p>
+<p onclick="fill('compare')">compare students</p>
+<p onclick="fill('total of REG1')">total of REG1</p>
+</div>
+
+<div id="chat" class="chatbox"></div>
+
+<div class="chat-input">
+<input id="q" placeholder="Ask...">
+<button onclick="ask()">Send</button>
+</div>
 
 </div>
 

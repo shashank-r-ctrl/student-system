@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
-  <link rel="stylesheet" href="style.css">
+<title>Login</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="login-container">
   <div class="login-box">
-    <h1>🔐 Agent Login</h1>
-
-    <input id="user" placeholder="Agent ID">
+    <h2>🔐 Login</h2>
+    <input id="user" placeholder="ID">
     <input id="pass" type="password" placeholder="Password">
-
-    <button onclick="login()">Enter System</button>
+    <button onclick="login()">Enter</button>
   </div>
 </div>
 
 <script>
 function login(){
-  const u=user.value;
-  const p=pass.value;
-
-  if(u==="id007" && p==="777"){
+  if(user.value==="id007" && pass.value==="777"){
     localStorage.setItem("auth","true");
     location.href="/";
-  } else alert("❌ Wrong credentials");
+  } else alert("Wrong");
 }
 </script>
 
