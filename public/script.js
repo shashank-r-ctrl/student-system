@@ -13,9 +13,7 @@ async function addStudent() {
 
   await fetch("/add", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify({ reg, name, marks })
   });
 
@@ -23,12 +21,9 @@ async function addStudent() {
   loadToppers();
 }
 
-// ❌ DELETE (ID BASED - PERFECT)
+// DELETE
 async function deleteStudent(id) {
-  await fetch(`/delete/${id}`, {
-    method: "DELETE"
-  });
-
+  await fetch(`/delete/${id}`, { method: "DELETE" });
   loadStudents();
   loadToppers();
 }
@@ -62,8 +57,7 @@ async function loadToppers() {
   const res = await fetch("/students");
   const data = await res.json();
 
-  const subjects = ["math", "science", "english", "social", "computer"];
-
+  const subjects = ["math","science","english","social","computer"];
   const box = document.getElementById("toppers");
   box.innerHTML = "";
 
@@ -72,10 +66,7 @@ async function loadToppers() {
 
     data.forEach(s => {
       if (s.marks[sub] > top.marks) {
-        top = {
-          name: s.name,
-          marks: s.marks[sub]
-        };
+        top = { name: s.name, marks: s.marks[sub] };
       }
     });
 

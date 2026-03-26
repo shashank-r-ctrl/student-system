@@ -1,18 +1,19 @@
 body {
-  background: #050505;
+  background: radial-gradient(circle, #0a0a0a, #000);
   color: white;
-  font-family: Arial;
+  font-family: 'Segoe UI';
   display: flex;
   justify-content: center;
-  padding: 40px;
+  padding: 30px;
 }
 
 .container {
-  width: 850px;
-  background: #0f0f0f;
+  width: 900px;
+  background: rgba(255,255,255,0.05);
   padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 0 25px #a855f7;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 40px rgba(168,85,247,0.3);
 }
 
 h1 {
@@ -22,48 +23,46 @@ h1 {
 
 input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin: 6px 0;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
-  background: #1a1a1a;
+  background: #111;
   color: white;
 }
 
 button {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(90deg, #22c55e, #a855f7);
+  background: linear-gradient(90deg,#22c55e,#a855f7);
   border: none;
-  color: white;
-  margin-top: 10px;
   border-radius: 10px;
+  color: white;
   cursor: pointer;
 }
 
 .card {
-  background: #1a1a1a;
+  background: #111;
   padding: 12px;
   margin-top: 10px;
   border-radius: 10px;
-  border-left: 5px solid #22c55e;
+  border-left: 4px solid #22c55e;
+}
+
+.card button {
+  background: #dc2626;
 }
 
 table {
   width: 100%;
   margin-top: 15px;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 10px;
-  text-align: center;
 }
 
 th {
   background: #a855f7;
 }
 
-td {
-  background: #1a1a1a;
+td, th {
+  padding: 10px;
+  text-align: center;
 }
