@@ -6,26 +6,26 @@
 </head>
 <body>
 
-<div class="container">
-  <h1>🔐 Login</h1>
+<div class="login-container">
+  <div class="login-box">
+    <h1>🔐 Agent Login</h1>
 
-  <input id="user" placeholder="Enter ID">
-  <input id="pass" type="password" placeholder="Enter Password">
+    <input id="user" placeholder="Agent ID">
+    <input id="pass" type="password" placeholder="Password">
 
-  <button onclick="login()">Enter</button>
+    <button onclick="login()">Enter System</button>
+  </div>
 </div>
 
 <script>
-function login() {
-  const u = document.getElementById("user").value;
-  const p = document.getElementById("pass").value;
+function login(){
+  const u=user.value;
+  const p=pass.value;
 
-  if (u === "id007" && p === "777") {
-    localStorage.setItem("auth", "true");
-    window.location.href = "/";
-  } else {
-    alert("Wrong ID or Password");
-  }
+  if(u==="id007" && p==="777"){
+    localStorage.setItem("auth","true");
+    location.href="/";
+  } else alert("❌ Wrong credentials");
 }
 </script>
 

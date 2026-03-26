@@ -1,48 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Student System</title>
+  <title>Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-  <h1>🎓 Student Management</h1>
-
+<div class="navbar">
+  <h2>🎓 Student System</h2>
   <button onclick="logout()">Logout</button>
+</div>
 
-  <input id="reg" placeholder="Registration Number">
-  <input id="name" placeholder="Name">
+<div class="main">
 
-  <h3>Marks</h3>
+  <div class="card">
+    <h3>Add Student</h3>
 
-  <input id="math" placeholder="Math">
-  <input id="science" placeholder="Science">
-  <input id="english" placeholder="English">
-  <input id="social" placeholder="Social">
-  <input id="computer" placeholder="Computer">
+    <input id="reg" placeholder="Reg">
+    <input id="name" placeholder="Name">
 
-  <button onclick="addStudent()">Save Student</button>
+    <input id="math" placeholder="Math">
+    <input id="science" placeholder="Science">
+    <input id="english" placeholder="English">
+    <input id="social" placeholder="Social">
+    <input id="computer" placeholder="Computer">
 
-  <h2>📋 Students</h2>
-  <div id="list"></div>
+    <button onclick="addStudent()">Save</button>
 
-  <h2>🏆 Subject Toppers</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Subject</th>
-        <th>Name</th>
-        <th>Marks</th>
-      </tr>
-    </thead>
-    <tbody id="toppers"></tbody>
-  </table>
+    <h3>Students</h3>
+    <div id="list"></div>
+  </div>
 
-  <h2>🤖 Chatbot</h2>
-  <input id="question" placeholder="Ask something...">
-  <button onclick="ask()">Ask</button>
-  <p id="answer"></p>
+  <div class="card">
+    <h3>🤖 AI Chatbot</h3>
+
+    <div id="chat" class="chatbox"></div>
+
+    <input id="q" placeholder="Ask anything...">
+    <button onclick="ask()">Send</button>
+  </div>
 
 </div>
 

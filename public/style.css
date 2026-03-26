@@ -1,68 +1,79 @@
 body {
-  background: radial-gradient(circle, #0a0a0a, #000);
-  color: white;
-  font-family: 'Segoe UI';
-  display: flex;
-  justify-content: center;
-  padding: 30px;
+  margin:0;
+  font-family:'Segoe UI';
+  background:#000;
+  color:white;
 }
 
-.container {
-  width: 900px;
-  background: rgba(255,255,255,0.05);
-  padding: 25px;
-  border-radius: 20px;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 0 40px rgba(168,85,247,0.4);
+.navbar {
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+  background:#111;
 }
 
-h1 {
-  text-align: center;
-  color: #a855f7;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 6px 0;
-  border-radius: 10px;
-  border: none;
-  background: #111;
-  color: white;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(90deg,#22c55e,#a855f7);
-  border: none;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
+.main {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  padding:20px;
 }
 
 .card {
-  background: #111;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 10px;
-  border-left: 4px solid #22c55e;
+  background:#111;
+  padding:20px;
+  border-radius:15px;
 }
 
-.card button {
-  background: linear-gradient(90deg,#a855f7,#22c55e);
+input {
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+  border-radius:10px;
+  border:none;
+  background:#0a0a0a;
+  color:white;
 }
 
-table {
-  width: 100%;
-  margin-top: 15px;
+button {
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(90deg,#22c55e,#a855f7);
+  color:white;
+  cursor:pointer;
 }
 
-th {
-  background: #a855f7;
+.student {
+  background:#0d0d0d;
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
 }
 
-td, th {
-  padding: 10px;
-  text-align: center;
+.chatbox {
+  height:300px;
+  overflow-y:auto;
+}
+
+.msg {
+  padding:8px;
+  margin:5px 0;
+  border-radius:10px;
+}
+
+.user { background:#0da883; text-align:right; }
+.bot { background:#a855f7; }
+
+.login-container {
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.login-box {
+  background:#111;
+  padding:30px;
+  border-radius:20px;
 }
